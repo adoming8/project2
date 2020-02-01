@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>areYou Smart</title>
+
+  <!--Import materialize.css-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>  
+<!------------ Navbar -------------->
+  <div class="navbar-fixed">
+    <nav class="grey darken-4">
+      <div class="container">
+        <div class="nav-wrapper">
+          <a id="logo" class="left large amber-text ">areYou Smart</a>
+          <ul class="right ">
+            <li>
+              <a href="#home"><span class=" grey-text">Home</span></a>
+            </li>
+            <li>
+              <a href="#users"><span class="grey-text">Users</span></a>
+            </li>
+            <li>
+              <a href="#topScores"><span class="grey-text">Top Scores</span></a>
+            </li>
+            <li>
+              <a href="#quizzes"><span class="grey-text">Quizzes</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+<!------------ Quiz Tabs -------------->
+
+  <div id="quiz"  class="container">
+    <!------------ Tabs -------------->
+
+    <div class="row">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s12"><a href="#quiz1" id="quizNum">Quiz 1</a></li>
+        </ul>
+      </div>
+    </div>
+    <!------------ Questions -------------->
+
+    <div class="row">
+      <div class="col s12">
+        <div id="quiz1" class="s12">
+          <div class="card-panel">
+                <div class="row">
+                    <nav id="navBar" class="white"  style="visibility: block;">
+                        <div id="highScores"><button id="viewHighscores" class="btn btn-outline-primary">Highscores</button>
+                            <span id="navbarText"class=" right">
+                                <span class="black"  id="timeLeft">Time: 0</span>
+                            </span>
+                        </div>
+                    </nav>
+                    <div id="main">
+                        <div class="center" id="startDiv" style="display: block;">
+                            <h1>Trivia quiz</h1>
+                            <p><strong>Once started, the timer is ticking down!! Incorrect answers will penalize your score/time by 10 seconds!</strong></p>
+                            <button class="btn" id="start">Start Quiz</button>
+                        </div>
+                        <div id="questionDiv" style="display: none;">
+                            <h2 id="questionDivTitle"></h2>
+                            <button class="btn btn-outline-primary btn-lg" id="questionDivChoice0" data-choice=""></button>
+                            <button class="btn btn-outline-primary btn-lg" id="questionDivChoice1" data-choice=""></button>
+                            <button class="btn btn-outline-primary btn-lg" id="questionDivChoice2" data-choice=""></button>
+                            <button class="btn btn-outline-primary btn-lg" id="questionDivChoice3" data-choice=""></button>
+                        </div>
+                        <div id="resultDiv" class="mt-3" style="display: none">
+                            <hr class="result" />
+                            <h3 id="resultText"></h3>
+                        </div>
+                        <div id="gameOverDiv" style="display: none">
+                            <h1>Game over, man!</h1>
+                            <p>Your final score is <span id="score"></span>.</p>
+        
+                            <form class="form-inline">
+                                <div class="form-group mb-2">
+                                    Enter initials:
+                                </div>
+                                <div class="form-group mx-sm-3 mb-2">
+                                    <label for="playerInitials" class="sr-only">Enter initials:</label>
+                                    <input type="text" class="form-control" id="playerInitials" placeholder="Initials">
+                                </div>
+                                <button id="submitScore" type="submit" class="btn btn-primary mb-2">Submit</button>
+                            </form>                    
+                        </div>
+                        <div id="highscoresDiv" style="display: none">
+                            <h1>Highscores</h1>
+                            <ul id="highScoreList"></ul>
+                            <form class="form-inline">
+                                <button id="startOver" type="submit" class="btn btn-primary mb-2">Start Over</button>&nbsp;&nbsp;&nbsp;
+                                <button id="clearHighscores" type="submit" class="btn btn-primary mb-2">Clear Highscores</button>
+                            </form>                        
+                        </div>
+                    </div>
+                </div>             
+            </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JS Scripts -->
+  <script type = "text/javascript"src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>           
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"> </script> 
+
+  <script src="assets/scripts/questions.js"></script>
+  <script src="assets/scripts/main.js"></script>   
+
+</body>
+
+</html>
