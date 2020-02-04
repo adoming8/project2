@@ -48,7 +48,15 @@ function startTrivia() {
     questionDiv.setAttribute("style", "display: none;");
     resultDiv.setAttribute("style", "display: none;");
     gameOverDiv.setAttribute("style", "display: none;");
+<<<<<<< HEAD
     highscoresDiv.setAttribute("style", "display: none;"); 
+=======
+    highscoresDiv.setAttribute("style", "display: none;");
+
+    //populate scores[] fromlocalstorage
+    getScoresLS = localStorage.getItem("scoresLS");
+    scores = getScoresLS ? JSON.parse(getScoresLS) : [];
+>>>>>>> integrated with views, returns user object
 }
 
 function startquestions() {
@@ -56,19 +64,33 @@ function startquestions() {
     displayNextQuestion(currentQuestion);
 }
 
+<<<<<<< HEAD
 function timer() {
     timeLeft.setAttribute("style", "display");
     timer = setInterval(function() {
     secondsLeft--;
+=======
+function startTimer() {
+    timerInterval = setInterval(function () {
+        secondsLeft--;
+>>>>>>> integrated with views, returns user object
 
-    timeLeft.textContent = "Time: " + secondsLeft;
+        timeLeft.textContent = "Time: " + secondsLeft;
 
+<<<<<<< HEAD
     if(secondsLeft === 0) {
         clearInterval(timer);
         end();
     }
+=======
+        if (secondsLeft === 0) {
+            // console.log("Time has run out.")
+            clearInterval(timerInterval);
+            endQuiz();
+        }
+>>>>>>> integrated with views, returns user object
 
-  }, 1000);
+    }, 1000);
 }
 
 function displayNextQuestion() {
@@ -99,12 +121,12 @@ function checkResponse(str) {
     }
 
     resultDiv.setAttribute("style", "display");
-    timerFlashResult = setInterval(function() {
+    timerFlashResult = setInterval(function () {
         secondsLeftFlashResult--;
         if (secondsLeftFlashResult === 0) {
             resultDiv.setAttribute("style", "display: none;");
             clearInterval(timerFlashResult);
-        }    
+        }
     }, 1000);
     secondsLeftFlashResult = 2;
 
@@ -112,6 +134,7 @@ function checkResponse(str) {
         currentQuestion++;
         displayNextQuestion();
     } else {
+<<<<<<< HEAD
         end();
     }    
 }
@@ -124,6 +147,35 @@ function end() {
     gameOverDiv.setAttribute("style", "display");
     clearInterval(timer);
 }
+=======
+        endQuiz();
+    }
+}
+
+function storeScores() {
+    //hide divs not necessary for highscore screen
+    navBarDiv.setAttribute("style", "visibility: hidden;");
+    gameOverDiv.setAttribute("style", "display: none;");
+    highscoresDiv.setAttribute("style", "display");
+
+    //get values from player-submitted form
+    strPlayerInitials = document.getElementById("playerInitials").value.trim();
+    strScore = secondsLeft;
+
+    //add to scores[]
+    scores.push([strPlayerInitials, strScore]);
+
+    //sort scores, high to low
+    scores.sort(function (a, b) {
+        return b[1] - a[1];
+    });
+
+    //write to localstorage
+    localStorage.setItem('scoresLS', JSON.stringify(scores));
+
+    //display high scores
+    renderHighscores();
+>>>>>>> integrated with views, returns user object
 
 function viewHighscores() {
     quiz_navbar.setAttribute("style", "visibility: hidden;");
@@ -136,12 +188,40 @@ function storeScores() {
     gameOverDiv.setAttribute("style", "display: none;");
     highscoresDiv.setAttribute("style", "display");
 
+<<<<<<< HEAD
 }
 
+=======
+    // If todos were retrieved from localStorage, update the todos array to it
+    if (storedTodos !== null) {
+        todos = storedTodos;
+    }
+
+    // Render todos to the DOM
+    renderTodos();
+}
+
+function renderHighscores() {
+    // Clear highscoreList element
+    var highscoreList = document.getElementById("highScoreList");
+    highscoreList.innerHTML = "";
+
+    // Render a new li for each score
+    for (var i = 0; i < scores.length; i++) {
+        var score = scores[i];
+        console.log(scores[i] + " " + score);
+        var li = document.createElement("li");
+        li.textContent = [i + 1] + ". " + scores[i][0].toString().toUpperCase() + " - " + scores[i][1];
+        li.setAttribute("data-index", i);
+        highscoreList.appendChild(li);
+    }
+}
+>>>>>>> integrated with views, returns user object
 
 
 // DOM EventListners
 
+<<<<<<< HEAD
 startButton.addEventListener("click", function() {
     startquestions();
 }); 
@@ -159,14 +239,46 @@ answer_btn2.addEventListener("click", function() {
 });
 answer_btn3.addEventListener("click", function() {
     checkResponse(answer_btn3.getAttribute("data-answer"));
+=======
+viewHighscoresButton.addEventListener("click", function () {
+    viewHighscores();
 });
 
-submitScoreButton.addEventListener("click", function(event) {
+startButton.addEventListener("click", function () {
+    startQuiz();
+});
+
+questionDivChoice0.addEventListener("click", function () {
+    checkResponse(questionDivChoice0.getAttribute("data-choice"));
+});
+
+questionDivChoice1.addEventListener("click", function () {
+    checkResponse(questionDivChoice1.getAttribute("data-choice"));
+});
+
+questionDivChoice2.addEventListener("click", function () {
+    checkResponse(questionDivChoice2.getAttribute("data-choice"));
+});
+
+questionDivChoice3.addEventListener("click", function () {
+    checkResponse(questionDivChoice3.getAttribute("data-choice"));
+>>>>>>> integrated with views, returns user object
+});
+
+submitScoreButton.addEventListener("click", function (event) {
     event.preventDefault();
     storeScores();
 // make post request to database to save user score
 });
+<<<<<<< HEAD
 clearHighscoresButton.addEventListener("click", function(event) {
+=======
+
+startOverButton.addEventListener("click", function () {
+});
+
+clearHighscoresButton.addEventListener("click", function (event) {
+>>>>>>> integrated with views, returns user object
     // localStorage.clear();
     event.preventDefault();
     scores = [];
@@ -174,3 +286,24 @@ clearHighscoresButton.addEventListener("click", function(event) {
 
     renderHighscores();
 });
+
+// Firebase materialize components
+document.addEventListener('DOMContentLoaded', function () {
+
+    var modals = document.querySelectorAll('.modal');
+    M.Modal.init(modals);
+
+    var items = document.querySelectorAll('.collapsible');
+    M.Collapsible.init(items);
+
+});
+
+// logout
+const logout = document.querySelector('#logout');
+logout.addEventListener('click', (e) => {
+    e.preventDefault();
+    auth.signOut().then(() => {
+        console.log('user signed out');
+    });
+});
+
