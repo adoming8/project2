@@ -1,7 +1,7 @@
 var questions = [
   {
       title: "What band sang about being an eggman and a walrus?",
-      choices: ["The Beetles", "The Rolling Stone", "Pink Floyd", "Elvis Presley"],
+      choices: ["Rolling Stones", "The Rolling Stone", "The Beetles", "Elvis Presley"],
       answer: "The Beetles"
   },
   {
@@ -10,13 +10,8 @@ var questions = [
       answer: "Prince"
   },
   {
-      title: "sfd",
-      choices: ["_forty2", "babel fish", "forty-two", "life42"],
-      answer: "babel fish"
-    },
-    {
-      title: "fsd",
-      choices: ["0", "NaN", "&quot;&quot;", "&quot;false&quot;"],
-      answer: "&quot;false&quot;"
-    }
+    title: "Rod Stewart hosted the largest ever concert crowd, what was the attendance?",
+    choices: ["63k", "3.5 Million", "350K", "1 Million"],
+    answer: "3.5 Million"
+}
 ];
