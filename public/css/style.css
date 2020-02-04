@@ -1,0 +1,87 @@
+.jumbotron {
+    text-align: center;
+  }
+  .page-footer {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  #logo {
+    font-size: 38px;
+  }
+
+  h4{
+    margin-top: 70px;
+  }
+
+  .quizImg{
+    height: 180px;
+    width: 650px;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
+  body{
+    margin:auto;
+    background-color: whitesmoke;
+  }
+
+  #quiz{
+    margin-top: 90px;
+  }
+
+  #quizNum {
+    text-transform: none;
+    font-size: 19px;
+  }
+
+  .tabs .tab a {
+    background-color: whitesmoke;
+    color: rgba(0, 0, 0, 0.653);
+    /*Custom Text Color*/
+  }
+  
+  .tabs .tab a:hover {
+    color: tomato;
+    /*Custom Color On Hover*/
+  }
+  
+  .tabs .tab a:focus.active {
+    color:blanchedalmond;
+    /*Custom Text Color While Active*/
+    background-color:tomato;
+    /*Custom Background Color While Active*/
+  }
+  
+  .tabs .indicator {
+    background-color: powderblue;
+    /*Custom Color Of Indicator*/
+  }
+
+  #quiz1 {
+    margin-top: 30px;
+    /* border: solid red; */
+  }
+
+  #timer {
+    color: tomato;
+    margin-right: 20px;
+    font-size: large;
+  }
+
+  #highscores_btn{
+    margin-left: 10px;
+  }
+
+  @media (max-width: 580px) {
+    #logo {
+      font-size: 20px;
+        }
+    .quizImg{
+      height: 120px;
+      width: 350px;
+    }
+  }
