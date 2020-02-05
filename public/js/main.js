@@ -135,6 +135,25 @@ function storeScores() {
     quiz_navbar.setAttribute("style", "visibility: hidden;");
     gameOverDiv.setAttribute("style", "display: none;");
     highscoresDiv.setAttribute("style", "display");
+    $.get("/api/all", function(data) {
+
+              if (data.length !== 0) {
+            
+                for (var i = 0; i < data.length; i++) {
+            
+                  var row = $("<div>");
+                  row.addClass("player");
+            
+                  row.append("<p>" + data[i]+ "</p>");
+                  
+            
+                  $("#highScoreList").prepend(row);
+            
+                }
+            
+              }
+            console.log(data);
+            });
 
 }
 
@@ -163,7 +182,14 @@ answer_btn3.addEventListener("click", function() {
 
 submitScoreButton.addEventListener("click", function (event) {
     event.preventDefault();
-    storeScores();
+     var newScore = {
+         gamerTag: $("#userTagname").val(),
+         score:$("#quizScore").text()
+
+     };
+     console.log(newScore)
+     $.post("/api/new",newScore)
+storeScores();
 // make post request to database to save user score
 });
 clearHighscoresButton.addEventListener("click", function(event) {
