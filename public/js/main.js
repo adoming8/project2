@@ -1,215 +1,171 @@
-//todo: refactor global variables to local as appropriate
-var timeLeft = document.getElementById("timeLeft");
-var startButton = document.getElementById("start");
-var navBarDiv = document.getElementById("navBar");
-var viewHighscoresButton = document.getElementById("viewHighscores");
-var startDiv = document.getElementById("startDiv");
-var questionDiv = document.getElementById("questionDiv");
-var resultDiv = document.getElementById("resultDiv");
-var gameOverDiv = document.getElementById("gameOverDiv");
-var score = document.getElementById("score");
-var highscoresDiv = document.getElementById("highscoresDiv");
-var questionDivTitle = document.getElementById("questionDivTitle");
-var questionDivChoice0 = document.getElementById("questionDivChoice0");
-var questionDivChoice1 = document.getElementById("questionDivChoice1");
-var questionDivChoice2 = document.getElementById("questionDivChoice2");
-var questionDivChoice3 = document.getElementById("questionDivChoice3");
-var submitScoreButton = document.getElementById("submitScore");
+
+// Quiz NavBar Section
+var quiz_navbar = document.getElementById("quiz_navBar");
+var viewHighscoresButton = document.getElementById("highscores_btn");
+
+// Quiz homediv Section
+var quiz_homediv = document.getElementById("quiz_homediv");
+var timeLeft = document.getElementById("timer");
+var startButton = document.getElementById("start_btn");
+
+// Quiz questions & answers Section
+var questionDiv = document.getElementById("questiondiv");
+var questionDivTitle = document.getElementById("question_titles");
+var answer_btn0 = document.getElementById("choice0");
+var answer_btn1 = document.getElementById("choice1");
+var answer_btn2 = document.getElementById("choice2");
+var answer_btn3 = document.getElementById("choice3");
+
+// Question answer result
+var resultDiv = document.getElementById("result_div");
+
+// End of game Section - submit player tag
+var gameOverDiv = document.getElementById("end");
+var score = document.getElementById("quizScore");
+var submitScoreButton = document.getElementById("submit_btn");
+
+// score/startOver section
+var highscoresDiv = document.getElementById("userScores");
 var startOverButton = document.getElementById("startOver");
-var clearHighscoresButton = document.getElementById("clearHighscores");
-const totalNumberQuestions = questions.length - 1; //0-based array
-var secondsLeft = questions.length * 15; //15 seconds/question
+var clearHighscoresButton = document.getElementById("clearscore_btn");
+
+// initiating global variables
+
+const totalQuestions = questions.length - 1; 
+var secondsLeft = questions.length * 12; // 12s per question
 var currentQuestion = 0;
-var timerInterval;
+var timer;
 var timerFlashResult;
 var secondsLeftFlashResult = 2;
-var scores = [];
 
-init();
 
-function init() {
-    //set initial display state of various divs
-    navBarDiv.setAttribute("style", "visibility: visible;");
-    startDiv.setAttribute("style", "display");
+// Quiz functions 
+startTrivia();
+
+function startTrivia() { 
+    // hidding initial display of unnecessary divs @ beggining
+    timeLeft.setAttribute("style", "display: none;");
     questionDiv.setAttribute("style", "display: none;");
     resultDiv.setAttribute("style", "display: none;");
     gameOverDiv.setAttribute("style", "display: none;");
-    highscoresDiv.setAttribute("style", "display: none;");
-
-    //populate scores[] fromlocalstorage
-    getScoresLS = localStorage.getItem("scoresLS");
-    scores = getScoresLS ? JSON.parse(getScoresLS): [];
+    highscoresDiv.setAttribute("style", "display: none;"); 
 }
 
-function startQuiz() {
-    startTimer();
+function startquestions() {
+    timer();
     displayNextQuestion(currentQuestion);
 }
 
-function startTimer() {
-    timerInterval = setInterval(function() {
+function timer() {
+    timeLeft.setAttribute("style", "display");
+    timer = setInterval(function() {
     secondsLeft--;
 
-    timeLeft.textContent = "Time: " + secondsLeft;
+        timeLeft.textContent = "Time: " + secondsLeft;
 
     if(secondsLeft === 0) {
-        // console.log("Time has run out.")
-        clearInterval(timerInterval);
-        endQuiz();
+        clearInterval(timer);
+        end();
     }
 
-  }, 1000);
-}
-
-function endQuiz() {
-    //hide question/result divs, show game over div
-    questionDiv.setAttribute("style", "display: none;");
-    resultDiv.setAttribute("style", "display: none;");
-    score.innerHTML = secondsLeft;
-    timeLeft.textContent = "Time: " + secondsLeft;
-    gameOverDiv.setAttribute("style", "display");
-    clearInterval(timerInterval);
+    }, 1000);
 }
 
 function displayNextQuestion() {
-    startDiv.setAttribute("style", "display: none;");
+    quiz_homediv.setAttribute("style", "display: none;");
     questionDiv.setAttribute("style", "display");
 
     questionDivTitle.innerHTML = questions[currentQuestion].title;
-    questionDivChoice0.innerHTML = questions[currentQuestion].choices[0];
-    questionDivChoice0.setAttribute("data-choice", questions[currentQuestion].choices[0]);
-    questionDivChoice1.innerHTML = questions[currentQuestion].choices[1];
-    questionDivChoice1.setAttribute("data-choice", questions[currentQuestion].choices[1]);
-    questionDivChoice2.innerHTML = questions[currentQuestion].choices[2];
-    questionDivChoice2.setAttribute("data-choice", questions[currentQuestion].choices[2]);
-    questionDivChoice3.innerHTML = questions[currentQuestion].choices[3];
-    questionDivChoice3.setAttribute("data-choice", questions[currentQuestion].choices[3]);
+    answer_btn0.innerHTML = questions[currentQuestion].choices[0];
+    answer_btn0.setAttribute("data-answer", questions[currentQuestion].choices[0]);
+    answer_btn1.innerHTML = questions[currentQuestion].choices[1];
+    answer_btn1.setAttribute("data-answer", questions[currentQuestion].choices[1]);
+    answer_btn2.innerHTML = questions[currentQuestion].choices[2];
+    answer_btn2.setAttribute("data-answer", questions[currentQuestion].choices[2]);
+    answer_btn3.innerHTML = questions[currentQuestion].choices[3];
+    answer_btn3.setAttribute("data-answer", questions[currentQuestion].choices[3]);
 }
 
 function checkResponse(str) {
     if (str == questions[currentQuestion].answer) {
         resultDiv.innerHTML = "Correct!";
     } else {
-        secondsLeft = secondsLeft - 10;
+        secondsLeft = secondsLeft - 6;
         if (secondsLeft < 0) {
             secondsLeft = 0;
-            endQuiz();
+            end();
         }
         resultDiv.innerHTML = "Incorrect!";
     }
 
     resultDiv.setAttribute("style", "display");
-    timerFlashResult = setInterval(function() {
+    timerFlashResult = setInterval(function () {
         secondsLeftFlashResult--;
         if (secondsLeftFlashResult === 0) {
             resultDiv.setAttribute("style", "display: none;");
             clearInterval(timerFlashResult);
-        }    
+        }
     }, 1000);
     secondsLeftFlashResult = 2;
 
-    if (currentQuestion < totalNumberQuestions) {
+    if (currentQuestion < totalQuestions) {
         currentQuestion++;
         displayNextQuestion();
     } else {
-        endQuiz();
+        end();
     }    
 }
 
-function storeScores() {
-    //hide divs not necessary for highscore screen
-    navBarDiv.setAttribute("style", "visibility: hidden;");
-    gameOverDiv.setAttribute("style", "display: none;");
-    highscoresDiv.setAttribute("style", "display");
-
-    //get values from player-submitted form
-    strPlayerInitials = document.getElementById("playerInitials").value.trim();
-    strScore = secondsLeft;
-    
-    //add to scores[]
-    scores.push([strPlayerInitials, strScore]);
-
-    //sort scores, high to low
-    scores.sort(function(a,b) {
-        return b[1] - a[1];
-    });
-
-    //write to localstorage
-    localStorage.setItem('scoresLS', JSON.stringify(scores));
-
-    //display high scores
-    renderHighscores();
-
-}
-
-function getHighscores() {
-    var storedScores = JSON.parse(localStorage.getItem("todos"));
-
-    // If todos were retrieved from localStorage, update the todos array to it
-    if (storedTodos !== null) {
-      todos = storedTodos;
-    }
-  
-    // Render todos to the DOM
-    renderTodos();
-}
-
-function renderHighscores() {
-    // Clear highscoreList element
-    var highscoreList = document.getElementById("highScoreList");
-    highscoreList.innerHTML = "";
-  
-    // Render a new li for each score
-    for (var i = 0; i < scores.length; i++) {
-        var score = scores[i];
-        console.log(scores[i] + " " + score);
-        var li = document.createElement("li");
-        li.textContent = [i+1] + ". " + scores[i][0].toString().toUpperCase() + " - " + scores[i][1];
-        li.setAttribute("data-index", i);
-        highscoreList.appendChild(li);
-    }
+function end() {
+    questionDiv.setAttribute("style", "display: none;");
+    resultDiv.setAttribute("style", "display: none;");
+    score.innerHTML = secondsLeft;
+    timeLeft.textContent = "Time: " + secondsLeft;
+    gameOverDiv.setAttribute("style", "display");
+    clearInterval(timer);
 }
 
 function viewHighscores() {
-    navBarDiv.setAttribute("style", "visibility: hidden;");
-    startDiv.setAttribute("style", "display: none;");
+    quiz_navbar.setAttribute("style", "visibility: hidden;");
+    quiz_homediv.setAttribute("style", "display: none;");
     highscoresDiv.setAttribute("style", "display");
-    renderHighscores();
+}
+
+function storeScores() {
+    quiz_navbar.setAttribute("style", "visibility: hidden;");
+    gameOverDiv.setAttribute("style", "display: none;");
+    highscoresDiv.setAttribute("style", "display");
+
 }
 
 
+
+// DOM EventListners
+
+startButton.addEventListener("click", function() {
+    startquestions();
+}); 
 viewHighscoresButton.addEventListener("click", function() {
     viewHighscores();
 });
-
-startButton.addEventListener("click", function() {
-    startQuiz();
-}); 
-
-questionDivChoice0.addEventListener("click", function() {
-    checkResponse(questionDivChoice0.getAttribute("data-choice"));
+answer_btn0.addEventListener("click", function() {
+    checkResponse(answer_btn0.getAttribute("data-answer"));
+});
+answer_btn1.addEventListener("click", function() {
+    checkResponse(answer_btn1.getAttribute("data-answer"));
+});
+answer_btn2.addEventListener("click", function() {
+    checkResponse(answer_btn2.getAttribute("data-answer"));
+});
+answer_btn3.addEventListener("click", function() {
+    checkResponse(answer_btn3.getAttribute("data-answer"));
 });
 
-questionDivChoice1.addEventListener("click", function() {
-    checkResponse(questionDivChoice1.getAttribute("data-choice"));
-});
-
-questionDivChoice2.addEventListener("click", function() {
-    checkResponse(questionDivChoice2.getAttribute("data-choice"));
-});
-
-questionDivChoice3.addEventListener("click", function() {
-    checkResponse(questionDivChoice3.getAttribute("data-choice"));
-});
-
-submitScoreButton.addEventListener("click", function(event) {
+submitScoreButton.addEventListener("click", function (event) {
     event.preventDefault();
     storeScores();
+// make post request to database to save user score
 });
-
-startOverButton.addEventListener("click", function() {
-});
-
 clearHighscoresButton.addEventListener("click", function(event) {
     // localStorage.clear();
     event.preventDefault();
@@ -218,3 +174,24 @@ clearHighscoresButton.addEventListener("click", function(event) {
 
     renderHighscores();
 });
+
+// Firebase materialize components
+document.addEventListener('DOMContentLoaded', function () {
+
+    var modals = document.querySelectorAll('.modal');
+    M.Modal.init(modals);
+
+    var items = document.querySelectorAll('.collapsible');
+    M.Collapsible.init(items);
+
+});
+
+// logout
+const logout = document.querySelector('#logout');
+logout.addEventListener('click', (e) => {
+    e.preventDefault();
+    auth.signOut().then(() => {
+        console.log('user signed out');
+    });
+});
+

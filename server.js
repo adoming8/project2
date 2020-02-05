@@ -20,7 +20,11 @@ app.use(express.static("./public"));
 
 // Routes
 // =============================================================
+<<<<<<< HEAD
 require("./routes/apiRoutes")(app);
+=======
+require("./routes/apiroutes")(app);
+>>>>>>> dcade95cc8496ccc86a3e9c1c7462bc11d9ec459
 
 // Starts the server to begin listening
 // =============================================================

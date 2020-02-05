@@ -1,7 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": "Se9ura1928820",
+
+    "password": "",
+
     "database": "areyousmart_db",
     "host": "localhost",
     "dialect": "mysql"

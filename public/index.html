@@ -1,33 +1,45 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>areYou Smart</title>
 
   <!--Import materialize.css-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
+<<<<<<< HEAD
   <!--<link rel="stylesheet" href="style.css">-->
+=======
+  <link rel="stylesheet" href="css/style.css">
+>>>>>>> dcade95cc8496ccc86a3e9c1c7462bc11d9ec459
 </head>
 
-<body>  
-<!------------ Navbar -------------->
+<body id="body">
+  
+  <!------------ Navbar -------------->
   <div class="navbar-fixed">
-    <nav class="grey darken-4">
+    <nav class="z-depth-0 grey darken-4">
       <div class="container">
         <div class="nav-wrapper">
           <a id="logo" class="left large amber-text ">areYou Smart</a>
-          <ul class="right ">
-            <li>
-              <a href="#home"><span class=" grey-text">Home</span></a>
+          <ul class="right">
+            <li class="logged-in">
+              <a href="#" class="grey-text modal-trigger" data-target="modal-account">Account</a>
+            </li>
+            <li class="logged-out">
+              <a href="#" class="grey-text modal-trigger" data-target="modal-signup">Sign up</a>
+            </li>
+            <li class="logged-out">
+              <a href="#" class="grey-text modal-trigger" data-target="modal-login">Login</a>
+            </li>
+            <li class="logged-in">
+              <a href="#" class="grey-text" id="logout">Logout</a>
             </li>
             <li>
-              <a href="#users"><span class="grey-text">Users</span></a>
+              <a href="#home"><span class=" grey-text">TBD</span></a>
             </li>
             <li>
-              <a href="#topScores"><span class="grey-text">Top Scores</span></a>
-            </li>
-            <li>
-              <a href="#quizzes"><span class="grey-text">Quizzes</span></a>
+              <a href="#users"><span class="grey-text">TBD</span></a>
             </li>
           </ul>
         </div>
@@ -35,87 +47,183 @@
     </nav>
   </div>
 
-<!------------ Quiz Tabs -------------->
+<!------------ Quiz -------------->
 
-  <div id="quiz"  class="container">
+  <div id="quiz" class="container">
     <!------------ Tabs -------------->
-
     <div class="row">
       <div class="col s12">
         <ul class="tabs">
-          <li class="tab col s12"><a href="#quiz1" id="quizNum">Quiz 1</a></li>
+          <li class="tab col s6"><a href="#quiz1" id="quizNum">Music Trivia</a></li>
+          <li class="tab col s6"><a href="#quiz2" id="quizNum">Sports Trivia</a></li>
         </ul>
       </div>
     </div>
-    <!------------ Questions -------------->
-
-    <div class="row">
+    <!------------ Quizzes -------------->
+    <div id="quiz1" class="row">
       <div class="col s12">
-        <div id="quiz1" class="s12">
+        <div class="s12">
           <div class="card-panel">
                 <div class="row">
-                    <nav id="navBar" class="white"  style="visibility: block;">
-                        <div id="highScores"><button id="viewHighscores" class="btn btn-outline-primary">Highscores</button>
-                            <span id="navbarText"class=" right">
-                                <span class="black"  id="timeLeft">Time: 0</span>
-                            </span>
+                    <nav id="quiz_navBar navBar" class="white" style="visibility: block;">
+                        <div id="highScores">
+                          <button id="highscores_btn" class="btn waves-effect waves-light">Highscores
+                          </button>
+                          <span class="white right" id="timer"><strong>Time: 0</strong></span>
                         </div>
                     </nav>
-                    <div id="main">
-                        <div class="center" id="startDiv" style="display: block;">
-                            <h1>Trivia quiz</h1>
-                            <p><strong>Once started, the timer is ticking down!! Incorrect answers will penalize your score/time by 10 seconds!</strong></p>
-                            <button class="btn" id="start">Start Quiz</button>
+                    <div id="questionSec">
+                        <div class="center " id="quiz_homediv" >
+                            <h2>Music Trivia</h2>
+                            <p>Have fun, git it your best try! Rember that for every wrong answer you will be deducted 6 seconds.
+                            </p>
+                            <button class="btn waves-effect waves-light " id="start_btn">Start Quiz</button>
                         </div>
-                        <div id="questionDiv" style="display: none;">
-                            <h2 id="questionDivTitle"></h2>
-                            <button class="btn btn-outline-primary btn-lg" id="questionDivChoice0" data-choice=""></button>
-                            <button class="btn btn-outline-primary btn-lg" id="questionDivChoice1" data-choice=""></button>
-                            <button class="btn btn-outline-primary btn-lg" id="questionDivChoice2" data-choice=""></button>
-                            <button class="btn btn-outline-primary btn-lg" id="questionDivChoice3" data-choice=""></button>
+                        <div class="center" id="questiondiv" >
+                            <h3 id="question_titles"></h3>
+                            <button class="btn" id="choice0" data-answer=""></button>
+                            <button class="btn" id="choice1" data-answer=""></button>
+                            <button class="btn" id="choice2" data-answer=""></button>
+                            <button class="btn" id="choice3" data-answer=""></button>
                         </div>
-                        <div id="resultDiv" class="mt-3" style="display: none">
-                            <hr class="result" />
-                            <h3 id="resultText"></h3>
-                        </div>
-                        <div id="gameOverDiv" style="display: none">
-                            <h1>Game over, man!</h1>
-                            <p>Your final score is <span id="score"></span>.</p>
-        
-                            <form class="form-inline">
-                                <div class="form-group mb-2">
-                                    Enter initials:
+                        <div id="result_div"></div>
+                        <div id="end" class="center" >
+                            <h3>End of Quiz</h3>
+                            <p>Your score is <span id="quizScore"></span>.</p>
+                            <form>
+                                <div><p> Enter initials:</p></div>
+                                <div>
+                                    <input type="text" class="center" id="userTagname" placeholder="User Tag">
                                 </div>
-                                <div class="form-group mx-sm-3 mb-2">
-                                    <label for="playerInitials" class="sr-only">Enter initials:</label>
-                                    <input type="text" class="form-control" id="playerInitials" placeholder="Initials">
-                                </div>
-                                <button id="submitScore" type="submit" class="btn btn-primary mb-2">Submit</button>
+                                <button id="submit_btn" type="submit" class="btn ">Submit</button>
                             </form>                    
                         </div>
-                        <div id="highscoresDiv" style="display: none">
-                            <h1>Highscores</h1>
+                        <div class="center" id="userScores">
+                            <h3>User Scores</h3>
                             <ul id="highScoreList"></ul>
                             <form class="form-inline">
-                                <button id="startOver" type="submit" class="btn btn-primary mb-2">Start Over</button>&nbsp;&nbsp;&nbsp;
-                                <button id="clearHighscores" type="submit" class="btn btn-primary mb-2">Clear Highscores</button>
+                                <button id="startOver" type="submit" class="btn">Start Over</button>
+                                <button id="clearscore_btn" type="submit" class="btn btn-primary mb-2">Clear Scores</button>
                             </form>                        
                         </div>
                     </div>
                 </div>             
-            </div>
+          </div>
         </div>
       </div>
     </div>
 
+    <div id="quiz2">
+      <div class="col s12">
+        <div class="s12">
+          <div class="card-panel">
+                <div class="row">
+                    <nav id="quiz_navBar" class="white">
+                        <div id="highScores">
+                          <button id="highscores_btn" class="btn waves-effect waves-light">Highscores
+                          </button>
+                          <span class="white right" id="timer"><strong>Time: 0</strong></span>
+                        </div>
+                    </nav>
+                    <div id="questionSec">
+                        <div class="center " id="quiz_homediv" >
+                            <h2>Sports Trivia</h2>
+                            <p>Have fun, git it your best try! Rember that for every wrong answer you will be deducted 6 seconds.
+                            </p>
+                            <button class="btn waves-effect waves-light " id="start_btn">Start Quiz</button>
+                        </div>
+                    </div>
+                </div>             
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- JS Scripts -->
-  <script type = "text/javascript"src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>           
-  <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"> </script> 
+  <!-- SIGN UP MODAL -->
+  <div id="modal-signup" class="modal">
+    <div class="modal-content">
+      <h4>Sign up</h4><br />
+      <form id="signup-form">
+        <div class="input-field">
+          <input type="email" id="signup-email" required />
+          <label for="signup-email">Email address</label>
+        </div>
+        <div class="input-field">
+          <input type="password" id="signup-password" required />
+          <label for="signup-password">Choose password</label>
+        </div>
+        <button class="btn yellow darken-2 z-depth-0">Sign up</button>
+      </form>
+    </div>
+  </div>
 
+  <!-- LOGIN MODAL -->
+  <div id="modal-login" class="modal">
+    <div class="modal-content">
+      <h4>Login</h4><br />
+      <form id="login-form">
+        <div class="input-field">
+          <input type="email" id="login-email" required />
+          <label for="login-email">Email address</label>
+        </div>
+        <div class="input-field">
+          <input type="password" id="login-password" required />
+          <label for="login-password">Your password</label>
+        </div>
+        <button class="btn yellow darken-2 z-depth-0">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ACCOUNT MODAL -->
+  <div id="modal-account" class="modal">
+    <div class="modal-content center-align">
+      <h4>Account details</h4><br />
+      <div class="account-details"></div>
+    </div>
+  </div>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+
+<<<<<<< HEAD
   <script src="./js/questions.js"></script>
   <script src="./js/main.js"></script>   
+=======
+ <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
+
+ <!-- Your web app's Firebase configuration-->
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyCln9buo12K8d-Wal1B1hB_dMZYP1Q6Nfw",
+      authDomain: "project-2-a7411.firebaseapp.com",
+      databaseURL: "https://project-2-a7411.firebaseio.com",
+      projectId: "project-2-a7411",
+      appId: "1:184907891075:web:283a0c2890cbb4622b76b6",
+      measurementId: "G-4L5W7PRLJ4"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    // make auth and firestore references
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  </script>
+
+  <!-- JS Scripts -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="../js/questions.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/auth.js"></script>
+>>>>>>> dcade95cc8496ccc86a3e9c1c7462bc11d9ec459
 
 </body>
 
