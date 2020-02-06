@@ -18,13 +18,19 @@ auth.onAuthStateChanged(user => {
   const signupForm = document.querySelector('#signup-form');
   signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    
+     
+    var newUser = {
+      email: $('#signup-email').val(),
+      password:$('#signup-password').val()
+    };
+    console.log(newUser)
+    $.post("/api/new",newUser)
     // get user info
-    const email = signupForm['signup-email'].value;
-    const password = signupForm['signup-password'].value;
+     const email = signupForm['signup-email'].value;
+     const password = signupForm['signup-password'].value;
   
     // sign up the user
-    auth.createUserWithEmailAndPassword(email, password).then(cred => {
+    auth.createUserWithEmailAndPassword(email,password).then(cred => {
       // close the signup modal & reset form
       const modal = document.querySelector('#modal-signup');
       M.Modal.getInstance(modal).close();
@@ -58,4 +64,4 @@ auth.onAuthStateChanged(user => {
   
   });
 
-  module.exports = userObject;
+  //module.exports = userObject;

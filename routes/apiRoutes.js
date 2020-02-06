@@ -3,10 +3,20 @@ var db = require("../models");
 module.exports = function (app) {
   // Get all examples
   app.get("/api/all", function (req, res) {
-    db.Player.findAll({})
-    .then(function (dbExamples) {
-      res.json(dbExamples);
-    });
+    db.Player.findAll({}).then(function (player) {
+      db.Score.findAll({
+        score: req.body.score
+      }).then(function (score) {
+
+        res.json({
+          player: player,
+          score: score
+        })
+      })
+
+     
+
+  });
    
   });
 

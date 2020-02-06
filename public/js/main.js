@@ -144,7 +144,7 @@ function storeScores() {
                   var row = $("<div>");
                   row.addClass("player");
             
-                  row.append("<p>" + data[i]+ "</p>");
+                  row.append("<p>" + data[i].player[0].gamerTag + "</p>");
                   
             
                   $("#highScoreList").prepend(row);
