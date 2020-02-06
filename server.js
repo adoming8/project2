@@ -28,7 +28,7 @@ require("./routes/apiRoutes")(app);
 // =============================================================
 db
 .sequelize
-.sync()
+.sync({force: true})
 .then(function(){
 app
 .listen(PORT, function() {
