@@ -13,6 +13,7 @@ Express Server
 MySql Database
 Materialize CSS Framework
 MVC paradigm
+Firebase SDK Authentication
 
 Dependencies: 
     "dotenv": "^8.0.0",
