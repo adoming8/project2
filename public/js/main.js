@@ -31,7 +31,7 @@ var clearHighscoresButton = document.getElementById("clearscore_btn");
 
 // initiating global variables
 
-const totalQuestions = questions.length - 1; 
+const totalQuestions = questions.length - 1;
 var secondsLeft = questions.length * 12; // 12s per question
 var currentQuestion = 0;
 var timer;
@@ -42,13 +42,13 @@ var secondsLeftFlashResult = 2;
 // Quiz functions 
 startTrivia();
 
-function startTrivia() { 
+function startTrivia() {
     // hidding initial display of unnecessary divs @ beggining
     timeLeft.setAttribute("style", "display: none;");
     questionDiv.setAttribute("style", "display: none;");
     resultDiv.setAttribute("style", "display: none;");
     gameOverDiv.setAttribute("style", "display: none;");
-    highscoresDiv.setAttribute("style", "display: none;"); 
+    highscoresDiv.setAttribute("style", "display: none;");
 }
 
 function startquestions() {
@@ -58,15 +58,15 @@ function startquestions() {
 
 function timer() {
     timeLeft.setAttribute("style", "display");
-    timer = setInterval(function() {
-    secondsLeft--;
+    timer = setInterval(function () {
+        secondsLeft--;
 
         timeLeft.textContent = "Time: " + secondsLeft;
 
-    if(secondsLeft === 0) {
-        clearInterval(timer);
-        end();
-    }
+        if (secondsLeft === 0) {
+            clearInterval(timer);
+            end();
+        }
 
     }, 1000);
 }
@@ -113,7 +113,7 @@ function checkResponse(str) {
         displayNextQuestion();
     } else {
         end();
-    }    
+    }
 }
 
 function end() {
@@ -135,25 +135,32 @@ function storeScores() {
     quiz_navbar.setAttribute("style", "visibility: hidden;");
     gameOverDiv.setAttribute("style", "display: none;");
     highscoresDiv.setAttribute("style", "display");
-    $.get("/api/all", function(data) {
+    $.get("/api/all", function (data) {
+        event.preventDefault()
+        let data2 = [data]
+            
+        for (var i = 0; i < data2.length; i++) {
+            let playerScore = data2[i].score;
+            for (let f = 0; f < playerScore.length; f++) {
 
-              if (data.length !== 0) {
-            
-                for (var i = 0; i < data.length; i++) {
-            
-                  var row = $("<div>");
-                  row.addClass("player");
-            
-                  row.append("<p>" + data[i].player[0].gamerTag + "</p>");
-                  
-            
-                  $("#highScoreList").prepend(row);
-            
+                let playerArray = data2[i].player;
+                for (let j = 0; j < playerArray.length; j++) {
+
+                        var row = $("<div>");
+
+                      row.addClass("player");
+
+                      row.append("<p>" + playerArray[j].gamerTag + playerScore[f].score + "</p>");
+
+
+                      $("#highScoreList").prepend(row);
                 }
-            
-              }
-            console.log(data);
-            });
+            }
+        }
+      
+        $("#highScoreList").val("")
+        console.log(data2);
+    });
 
 }
 
@@ -161,38 +168,38 @@ function storeScores() {
 
 // DOM EventListners
 
-startButton.addEventListener("click", function() {
+startButton.addEventListener("click", function () {
     startquestions();
-}); 
-viewHighscoresButton.addEventListener("click", function() {
+});
+viewHighscoresButton.addEventListener("click", function () {
     viewHighscores();
 });
-answer_btn0.addEventListener("click", function() {
+answer_btn0.addEventListener("click", function () {
     checkResponse(answer_btn0.getAttribute("data-answer"));
 });
-answer_btn1.addEventListener("click", function() {
+answer_btn1.addEventListener("click", function () {
     checkResponse(answer_btn1.getAttribute("data-answer"));
 });
-answer_btn2.addEventListener("click", function() {
+answer_btn2.addEventListener("click", function () {
     checkResponse(answer_btn2.getAttribute("data-answer"));
 });
-answer_btn3.addEventListener("click", function() {
+answer_btn3.addEventListener("click", function () {
     checkResponse(answer_btn3.getAttribute("data-answer"));
 });
 
 submitScoreButton.addEventListener("click", function (event) {
     event.preventDefault();
-     var newScore = {
-         gamerTag: $("#userTagname").val(),
-         score:$("#quizScore").text()
+    var newScore = {
+        gamerTag: $("#userTagname").val(),
+        score: $("#quizScore").text()
 
-     };
-     console.log(newScore)
-     $.post("/api/new",newScore)
-storeScores();
-// make post request to database to save user score
+    };
+    console.log(newScore)
+    $.post("/api/new", newScore)
+    storeScores();
+    // make post request to database to save user score
 });
-clearHighscoresButton.addEventListener("click", function(event) {
+clearHighscoresButton.addEventListener("click", function (event) {
     // localStorage.clear();
     event.preventDefault();
     scores = [];
@@ -205,15 +212,15 @@ const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
 
 const setupUI = (user) => {
-  if (user) {
-    // toggle user UI elements
-    loggedInLinks.forEach(item => item.style.display = 'block');
-    loggedOutLinks.forEach(item => item.style.display = 'none');
-  } else {
-    // toggle user elements
-    loggedInLinks.forEach(item => item.style.display = 'none');
-    loggedOutLinks.forEach(item => item.style.display = 'block');
-  }
+    if (user) {
+        // toggle user UI elements
+        loggedInLinks.forEach(item => item.style.display = 'block');
+        loggedOutLinks.forEach(item => item.style.display = 'none');
+    } else {
+        // toggle user elements
+        loggedInLinks.forEach(item => item.style.display = 'none');
+        loggedOutLinks.forEach(item => item.style.display = 'block');
+    }
 };
 
 // Firebase materialize components
