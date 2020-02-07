@@ -135,36 +135,7 @@ function storeScores() {
     quiz_navbar.setAttribute("style", "visibility: hidden;");
     gameOverDiv.setAttribute("style", "display: none;");
     highscoresDiv.setAttribute("style", "display");
-    $.get("/api/all", function (data) {
-        event.preventDefault()
-        let data2 = [data]
-            
-        for (var i = 0; i < data2.length; i++) {
-            let playerScore = data2[i].score;
-            for (let f = 0; f < playerScore.length; f++) {
-
-                let playerArray = data2[i].player;
-                for (let j = 0; j < playerArray.length; j++) {
-
-                        var row = $("<div>");
-
-                      row.addClass("player");
-
-                      row.append("<p>" + playerArray[j].gamerTag + playerScore[f].score + "</p>");
-
-
-                      $("#highScoreList").prepend(row);
-                }
-            }
-        }
-      
-        $("#highScoreList").val("")
-        console.log(data2);
-    });
-
-}
-
-
+};
 
 // DOM EventListners
 
@@ -196,7 +167,37 @@ submitScoreButton.addEventListener("click", function (event) {
     };
     console.log(newScore)
     $.post("/api/new", newScore)
-    storeScores();
+    .then(function(){
+    $.get("/api/all", function (data) {
+        event.preventDefault()
+       
+
+                      $("#gamerTag").html(`
+                      ${data.player.map(function(player){
+                        return ` 
+                        <h6>${player.gamerTag}</h6>
+                        `
+                      }).join('')}
+                      `);
+
+                      $("#score").html(`
+                      ${data.score.map(function(score){
+                        return ` 
+                        <h6>${score.score}</h6>
+                        `
+                      }).join('')}
+                      `);
+
+         
+      
+        
+        console.log(data);
+        storeScores();
+    });
+
+})
+    //storeScores();
+
     // make post request to database to save user score
 });
 clearHighscoresButton.addEventListener("click", function (event) {
